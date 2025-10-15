@@ -15,9 +15,9 @@ import coil.compose.AsyncImage
 import com.example.jetpack_exp.Product
 
 @Composable
-fun ProductCard(product: Product) {
+fun ProductCard(product: Product, modifier: Modifier?) {
     Card(
-        modifier = Modifier
+        modifier = modifier ?: Modifier
             .fillMaxWidth()
             .padding(8.dp),
         shape = RoundedCornerShape(12.dp),

@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +34,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.jetpack_exp.Product
 import com.example.jetpack_exp.ProductCard
 import com.example.jetpack_exp.R
@@ -61,6 +67,15 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun GreetingText(message: String, from: String, modifier: Modifier = Modifier) {
+    val navController=rememberNavController()
+    NavHost(navController = navController, startDestination = "home"){
+        composable ("home"){ HomePage(navController) }
+        composable("detail") { DetailScreen(navController) }
+    }
+}
+
+@Composable
+fun HomePage( navController: NavController) {
     var products  by remember { mutableStateOf(sampleProducts) }
 
     Column {
@@ -83,10 +98,23 @@ fun GreetingText(message: String, from: String, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxSize(),
         ) {
             items(products) { item ->
-                ProductCard(product = item)
+                ProductCard(product = item,  modifier =  Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .clickable {
+                        navController.navigate("detail")
+                    })
             }
 
         }
+    }
+}
+
+@Composable
+fun DetailScreen( navController: NavController) {
+
+    Column {
+        Text("Detail Product")
     }
 }
 
